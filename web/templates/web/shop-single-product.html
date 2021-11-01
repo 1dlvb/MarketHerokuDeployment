@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+{% extends 'web/base_generic.html' %}
+{% load static %}
+<html lang="en">
+<body>
+{% block content %}
+  <main class="main-content site-wrapper-reveal">
+    <!--== Start Page Title Area ==-->
+    <section class="page-title-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+
+            <div class="page-title-content">
+              <h2 class="title">{{ product.title }}</h2>
+              <div class="bread-crumbs"><a href="{% url 'index' %}">Home<span class="breadcrumb-sep">></span></a><span class="active">{{ product.title }}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Page Title Area ==-->
+
+    <!--== Start Shop Area ==-->
+    <section class="product-area shop-single-product">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="single-product-thumb simple-product-thumb">
+              <div class="zoom zoom-hover">
+                <div class="thumb-item">
+                  {% if product.big_image %}
+                  <a class="lightbox-image" data-fancybox="gallery" href="{{ product_details.big_image.url }}">
+                    <img src="{{ product.big_image.url }}" alt="Image-HasTech">
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="single-product-info">
+              <h4 class="title">{{ product.title }}</h4>
+              <div class="product-ratting">
+
+              <div class="product-availability">
+                  Availability: <span>{{product.availability}} left in stock</span>
+              </div>
+              <p class="product-desc">
+                {{product.description|linebreaks}}</p>
+              <div class="prices">
+                <span class="price">${{product.price}}</span>
+              </div>
+
+              <div class="quick-product-action">
+                <div class="action-top">
+                  <div class="pro-qty-area">
+                    <span class="qty-title">Quantity:</span>
+                    <div class="pro-qty">
+                      <input type="text" id="quantity" title="Quantity" value="1" />
+                    </div>
+                  </div>
+                  <a class="btn-theme" href="{% url 'add_to_cart' ct_model=ct_model slug=product.slug %}">Add to cart</a>
+                </div>
+                <div class="action-bottom">
+                  <a class="btn-wishlist" href="#"><i class="far fa-heart"></i></a>
+                  <a class="btn-wishlist" href="#"><i class="fas fa-greater-than-equal"></i></a>
+                </div>
+              </div>
+              <div class="payment-support">
+                <h5>Guaranteed Checkout</h5>
+                <ul class="payment-items">
+                  <li class="payment-item"><img src="{% static '/img/icons/visa.svg' %}" height="35" alt="visa"></li>
+                  <li class="payment-item"><img src="{% static '/img/icons/master.svg' %}" height="35" alt="master"></li>
+                  <li class="payment-item"><img src="{% static '/img/icons/paypal.svg' %}" height="35" alt="paypal"></li>
+                  <li class="payment-item"><img src="{% static '/img/icons/pay.svg' %}" height="35" alt="shopify pay"></li>
+                  <li class="payment-item"><img src="{% static '/img/icons/google.svg' %}" height="35" alt="google pay"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!--== End Shop Area ==-->
+
+    <!--== Start Shop Tab Area ==-->
+    <section class="product-area product-description-review-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="product-description-review">
+              <ul class="nav nav-tabs product-description-tab-menu" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="product-desc-tab" data-bs-toggle="tab"
+                          data-bs-target="#productDesc" type="button" role="tab" aria-controls="productDesc"
+                          aria-selected="true">Description</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="product-comment-tab" data-bs-toggle="tab"
+                          data-bs-target="#commentProduct" type="button" role="tab" aria-controls="commentProduct"
+                          aria-selected="false">Comments</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="product-custom-tab" data-bs-toggle="tab"
+                          data-bs-target="#productCustom" type="button" role="tab" aria-controls="productCustom"
+                          aria-selected="false">Shipping Policy</button>
+                </li>
+              </ul>
+              <div class="tab-content product-description-tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="productDesc" role="tabpanel" aria-labelledby="product-desc-tab">
+                  <div class="product-desc mt-n5 mb-5">
+                    <p>{{product.detailed_description|linebreaks}}</p>
+                  </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="commentProduct" role="tabpanel" aria-labelledby="product-comment-tab">
+                  <div class="product-comment">
+                    <form action="#">
+                      <div class="product-comment-content">
+                        <img src="{% static '/img/shop/comment.png' %}" alt="Image-HasTech">
+                        <textarea name="con_message" placeholder="Start the discussion…"></textarea>
+                      </div>
+                      <button class="btn btn-theme" type="submit">Post as Product</button>
+                    </form>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="productCustom" role="tabpanel" aria-labelledby="product-custom-tab">
+                  <div class="product-shipping-policy">
+                    <div class="section-title">
+                      <h2 class="title">Shipping policy for our store</h2>
+                      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate</p>
+                    </div>
+                    <ul class="shipping-policy-list">
+                      <li>1-2 business days (Typically by end of day)</li>
+                      <li><a href="#">30 days money back guaranty</a></li>
+                      <li>24/7 live support</li>
+                      <li>odio dignissim qui blandit praesent</li>
+                      <li>luptatum zzril delenit augue duis dolore</li>
+                      <li>te feugait nulla facilisi.</li>
+                    </ul>
+                    <p>Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum</p>
+                    <p>claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per</p>
+                    <p>seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!--== End Shop Tab Area ==-->
+    <!--== Start Popular Products Area Wrapper ==-->
+
+  </main>
+
+
+{% endblock %}
+
+</body>
+</html>

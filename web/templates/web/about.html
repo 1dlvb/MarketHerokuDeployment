@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'web/base_generic.html' %}
+{% load static %}
+<body>
+{% block content %}
+  <main class="main-content">
+    <!--== Start Page Title Area ==-->
+    <section class="page-title-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="page-title-content ">
+              <h2 class="title">About</h2>
+              <div class="bread-crumbs"><a href="{% url 'index' %}">Home<span class="breadcrumb-sep">></span></a><span class="active">About</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Page Title Area ==-->
+
+    <!--== Start About Area ==-->
+    <section class="about-area about-default-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="about-content">
+              <div class="section-title mb-0">
+                <h2 class="title">The Little story About <br>Our Journy</h2>
+              </div>
+              <p class="mb-15">Conveniently repurpose web-enabled supply chains after technically sound action items. Progressively implement granular e-markets whereas customized niches. Assertively envisioneer sticky intellectual capital for user-centric leadership skills.</p>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="thumb thumb-hover mt-md-30">
+              <img src="{% static '/img/about/1.webp' %}" alt="Olivine-Image">
+              <div class="img-content">
+                <h3>2025</h3>
+                <span>Oil</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End About Area ==-->
+
+    <!--== Start Featured Product Area Wrapper ==-->
+    <div class="divider-area divider-about-area">
+      <div class="container">
+        <div class="row flex-row-reverse">
+          <div class="col-lg-6">
+            <div class="tab-default mb-md-40">
+              <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="mission-tab" data-bs-toggle="pill" data-bs-target="#mission" type="button" role="tab" aria-controls="mission" aria-selected="true">Mission</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="vision-tab" data-bs-toggle="pill" data-bs-target="#vision" type="button" role="tab" aria-controls="vision" aria-selected="false">Vision</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="goal-tab" data-bs-toggle="pill" data-bs-target="#goal" type="button" role="tab" aria-controls="goal" aria-selected="false">Goal</button>
+                </li>
+              </ul>
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="mission" role="tabpanel" aria-labelledby="mission-tab">
+                  <p>Conveniently repurpose web-enabled supply chains after technically sound action items. Progressively implement granular e-markets whereas customized niches. Assertively envisioneer sticky intellectual capital for user-centric leadership skills.</p>
+                  <p>Assertively envisioneer sticky intellectual capital for user-centric leadership skills.</p>
+                </div>
+                <div class="tab-pane fade" id="vision" role="tabpanel" aria-labelledby="vision-tab">
+                  <p>Conveniently repurpose web-enabled supply chains after technically sound action items. Progressively implement granular e-markets whereas customized niches. Assertively envisioneer sticky intellectual capital for user-centric leadership skills.</p>
+                </div>
+                <div class="tab-pane fade" id="goal" role="tabpanel" aria-labelledby="goal-tab">
+                  <p>Conveniently repurpose web-enabled supply chains after technically sound action items. Progressively implement granular e-markets whereas customized niches.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="thumb thumb-hover">
+              <img class="w-100" src="{% static '/img/about/2.webp' %}" alt="Olivine-Image">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--== End Featured Product Area Wrapper ==-->
+
+    <!--== Start Video Area Wrapper ==-->
+    <section class="video-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="video-content content-style2">
+              <div class="thumb thumb-hover">
+                <img src="{% static '/img/photos/video1.webp' %}" alt="Olivine-Image">
+                <h3 class="video-title">What Consumer Say About Us</h3>
+                <a class="btn-play play-video-popup" href="https://www.youtube.com/watch?v=nGuDXX6Qda0"><span class="icon"><img src="{% static '/img/icons/play-btn-s2.webp' %}" alt="Icon"></span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Video Area Wrapper ==-->
+
+    <!--== Start Brand Logo Area ==-->
+    <section class="brand-logo-area brand-logo-about-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-lg-6 m-auto">
+            <div class="section-title text-center">
+              <h2 class="title">Brand Logo</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col-lg-12">
+            <div class="swiper-container brand-logo-slider-container">
+              <div class="swiper-wrapper brand-logo-slider">
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="{% static '/img/brand-logo/1.webp' %}" alt="Brand-Logo"></a>
+                </div>
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="{% static '/img/brand-logo/2.webp' %}" alt="Brand-Logo"></a>
+                </div>
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="{% static '/img/brand-logo/3.webp' %}" alt="Brand-Logo"></a>
+                </div>
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="{% static '/img/brand-logo/4.webp' %}" alt="Brand-Logo"></a>
+                </div>
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="{% static '/img/brand-logo/5.webp' %}" alt="Brand-Logo"></a>
+                </div>
+                <div class="swiper-slide brand-logo-item">
+                  <a href="#/"><img src="{% static '/img/brand-logo/6.webp' %}" alt="Brand-Logo"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Brand Logo Area ==-->
+  </main>
+
+{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'web/base_generic.html' %}
+{% load static %}
+<body>
+{% block content %}
+  <main class="main-content site-wrapper-reveal">
+    <!--== Start Page Title Area ==-->
+    <section class="page-title-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="page-title-content">
+              <h2 class="title">Your Shopping Cart</h2>
+              <div class="bread-crumbs"><a href="{% url 'index' %}">Home<span class="breadcrumb-sep">></span></a><span class="active">Your Shopping Cart</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Page Title Area ==-->
+
+    <!--== Start Cart Area Wrapper ==-->
+    <h3 class="text-center mt-5 mb-5"> {% if not cart.products.count %} Empty {% endif %}</h3>
+    <section class="product-area cart-page-area bgcolor-fa">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="cart-table-wrap">
+              <div class="cart-table table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="pro-product">Product</th>
+                      <th class="pro-price text-center">Price</th>
+                      <th class="pro-quantity text-center">Quantity</th>
+                      <th class="pro-subtotal text-center">Total</th>
+                      <th class="pro-remove text-center">Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      {% for item in cart.products.all %}
+                      <td class="pro-product">
+                        <div class="product-info">
+                          <div class="product-img">
+                            {% if item.content_object.thumbnail_image %}
+                            <a class="img-fluid" href="#"><img src="{{ item.content_object.thumbnail_image.url }}" alt="Olivine-Shop"></a>
+                            {% endif %}
+                          </div>
+                          <div class="product-info">
+                            <h4><a href="{{ item.content_object.get_absolute_url }}">{{ item.content_object.title }}</a></h4>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="pro-price text-center"><span>{{ item.content_object.price }}</span></td>
+                      <td class="pro-quantity text-center">
+                        <div class="quick-product-action cart-buttons">
+                          <form id="update-cart" action="{% url 'change-qty' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}" method="POST">
+                            {% csrf_token %}
+                            <input class="form-control" type="number" min="1" name="qty"  value="{{ item.quantity }}">
+                            <input class="btn-shopping ml-0 mt-2" type="submit">
+                          </form>
+                        </div>
+                      </td>
+                      <td class="pro-subtotal text-center"><span>{{ item.final_price }}</span></td>
+                      <td class="text-center">
+                        <a href="{% url 'delete-from-cart' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}">
+                          <i class="fas fa-times"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="cart-buttons">
+                    <a class="btn-shopping continue-shopping" href="{% url 'shop' %}">Continue Shopping</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="cart-payment">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="culculate-shipping">
+                    <h3 class="title">Special instructions for seller</h3>
+                    <form action="#">
+                      <div class="form-group">
+                        <textarea class="form-control"></textarea>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="cart-subtotal">
+                    <h3 class="title">Cart Totals</h3>
+                    <table>
+                      <tbody>
+                        <tr class="cart-subtotal">
+                          <th>Shipping</th>
+                          <td>
+                            <span class="amount">Free</span>
+                          </td>
+                        </tr>
+                        <tr class="order-total">
+                          <th>Total</th>
+                          <td>
+                            <span class="price">${{ cart.final_price }}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <a class="btn-theme" href="{% url 'shop-checkout' %}">Proceed to Checkout</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Cart Area Wrapper ==-->
+  </main>
+ {% endblock %}
+</body>
+
+</html>

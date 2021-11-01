@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load crispy_forms_tags %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Olivine - Responsive Beard Oil Bootstrap 5 HTML Template</title>
+    <!--== Favicon ==-->
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
+    <!--== Google Fonts ==-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico:400" rel="stylesheet">
+    <!--== Font-awesome Icons CSS ==-->
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">    <!--== Icofont Min Icons CSS ==-->
+    <link href="{% static 'css/icofont.min.css' %}" rel="stylesheet"/>
+    <!--== Fontello CSS ==-->
+    <link href="{% static 'css/fontello.css' %}" rel="stylesheet"/>
+    <!--== Vandella CSS ==-->
+    <link href="{% static 'css/font-vandella.css' %}" rel="stylesheet"/>
+    <!--== Animate CSS ==-->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet"/>
+    <!--== Aos CSS ==-->
+    <link href="{% static 'css/aos.css' %}" rel="stylesheet"/>
+    <!--== FancyBox CSS ==-->
+    <link href="{% static 'css/jquery.fancybox.min.css' %}" rel="stylesheet"/>
+    <!--== Slicknav CSS ==-->
+    <link href="{% static 'css/slicknav.css' %}" rel="stylesheet"/>
+    <!--== Swiper CSS ==-->
+    <link href="{% static 'css/swiper.min.css' %}" rel="stylesheet"/>
+    <!--== Main Style CSS ==-->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
+    <!--  Bootstrap  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--  Font Awesome  -->
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+</head>
+<body>
+
+<!--wrapper start-->
+<div class="wrapper product-information-wrapper">
+
+
+  <main class="main-content">
+    <!--== Start Product Area Wrapper ==-->
+    <section class="product-area product-information-area">
+      <div class="container">
+        <div class="product-information position-relative">
+          <div class="row overflow-auto">
+            <div class="col-lg-7 ">
+              <div class="edit-checkout-head">
+                <div class="breadcrumb-area">
+                  <ul>
+                    <li><a href="shop-cart.html">Cart</a><i class="fa fa-angle-right"></i></li>
+                    <li class="active">Information<i class="fa fa-angle-right"></i></li>
+                    <li>Shipping<i class="fa fa-angle-right"></i></li>
+                    <li>Payment</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="edit-checkout-information">
+                <h4 class="title">Contact information</h4>
+                <div class="logged-in-information">
+                  <div class="thumb" data-bg-img="{% static '/img/photos/gravatar2.png' %}"></div>
+                  <p>
+                    <span class="name">olivine</span>
+                    <span>(olivine@example.com)</span>
+                    <a href="#">Log out</a>
+                  </p>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                  <label class="form-check-label" for="inlineCheckbox1">Keep me up to date on news and exclusive offers</label>
+                </div>
+                <h3 class="text-center mt-3 mb-2">Order form</h3>
+                  <form action="{% url 'make-order' %}" method="POST">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                       <input type="submit" class="btn btn-success" value="Buy now">
+                  </form>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="shipping-cart-subtotal-wrapper scroll-container" id="scroll-container">
+                <div class="shipping-cart-subtotal">
+                    {% for item in cart.products.all %}
+                    <div class="shipping-cart-item">
+                    <div class="thumb">
+                      {% if item.content_object.thumbnail_image %}
+                      <img src="{{ item.content_object.thumbnail_image.url }}" alt="">
+                      {% endif %}
+                      <span class="quantity">{{ item.quantity }}</span>
+                    </div>
+                    <div class="content mr-4">
+                      <h4 class="title">{{ item.content_object.title }}</h4>
+                      {% if item.content_object.wheel_size %}
+                      <span class="info">m / gold</span>
+                      {% endif %}
+                      <span class="info">${{ item.content_object.price }}</span>     <!--Price for one piece-->
+                      <span class="price">${{ item.final_price }}</span>             <!--Final price for product-->
+                    </div>
+                  </div>
+                  {% endfor %}
+
+                  <div class="shipping-subtotal mr-5">
+                    <p><span>Subtotal</span><span><strong>${{ cart.final_price }}</strong></span></p>
+                    <p><span>Shipping</span><span>Free</span></p>
+                  </div>
+                  <div class="shipping-total  mr-5">
+                    <p class="total">Total</p>
+                    <p class="price"><span class="usd">USD</span>${{ cart.final_price }}</p>
+                  </div>
+                  <a class="btn-return" href="shop-cart.html">Return to cart</a>
+                    <div class="btn-box mt-5">
+                    <div class="border-top">
+                        <p class="mt-2">All rights reserved 1dlvb</p>
+                    </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+    <!--== End Product Area Wrapper ==-->
+
+  </main>
+
+  <!--== Scroll Top Button ==-->
+  <div class="scroll-to-top mb-3"><span class="fa fa-angle-double-up"></span></div>
+</div>
+
+<!--=======================Javascript============================-->
+
+<!--=== Modernizr Min Js ===-->
+<script src="{% static 'js/modernizr.js' %}"></script>
+<!--=== jQuery Min Js ===-->
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<!--=== jQuery Migration Min Js ===-->
+<script src="{% static 'js/jquery-migrate.js' %}"></script>
+<!--=== Popper Min Js ===-->
+<script src="{% static 'js/popper.min.js' %}"></script>
+<!--=== Bootstrap Min Js ===-->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!--=== jquery Appear Js ===-->
+<script src="{% static 'js/jquery.appear.js' %}"></script>
+<!--=== jquery Swiper Min Js ===-->
+<script src="{% static 'js/swiper.min.js' %}"></script>
+<!--=== jQuery Slick Min Js ===-->
+<script src="{% static 'js/slick.min.js' %}"></script>
+<!--=== jquery Fancybox Min Js ===-->
+<script src="{% static 'js/fancybox.min.js' %}"></script>
+<!--=== jquery Aos Min Js ===-->
+<script src="{% static 'js/aos.min.js' %}"></script>
+<!--=== jquery Slicknav Js ===-->
+<script src="{% static 'js/jquery.slicknav.js' %}"></script>
+<!--=== jquery Countdown Js ===-->
+<script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+<!--=== jquery Wow Min Js ===-->
+<script src="{% static 'js/wow.min.js' %}"></script>
+<!--=== jQuery Zoom Min Js ===-->
+<script src="{% static 'js/jquery-zoom.min.js' %}"></script>
+
+<!--=== Custom Js ===-->
+<script src="{% static 'js/custom.js' %}"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,219 @@
+{% extends 'web/shop.html' %}
+{% load static %}
+
+{% block content %}
+<!--wrapper start-->
+<div class="wrapper">
+
+  <!--== Start Preloader Content ==-->
+  <div class="preloader-wrap">
+    <div class="preloader">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!--== End Preloader Content ==-->
+
+
+
+  <main class="main-content">
+    <!--== Start Page Title Area ==-->
+    <section class="page-title-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="page-title-content ">
+              <h2 class="title">Products</h2>
+              <div class="bread-crumbs"><a href="{% url 'index' %}">Home<span class="breadcrumb-sep">></span></a><span class="active">Products</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Page Title Area ==-->
+
+    <!--== Start Shop Area Wrapper ==-->
+    <div class="product-area product-grid-area">
+      <div class="container">
+        <div class="row flex-row-reverse">
+          <div class="col-lg-9">
+            <div class="row">
+              <div class="col-12">
+                <div class="shop-topbar-wrapper">
+                  <div class="collection-shorting">
+                    <div class="shop-topbar-left">
+                      <div class="view-mode">
+                        <nav>
+                          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <button class="nav-link active" id="nav-grid-tab" data-bs-toggle="tab" data-bs-target="#nav-grid" type="button" role="tab" aria-controls="nav-grid" aria-selected="true"><i class="fa fa-th"></i></button>
+                            <button class="nav-link" id="nav-list-tab" data-bs-toggle="tab" data-bs-target="#nav-list" type="button" role="tab" aria-controls="nav-list" aria-selected="false"><i class="fa fa-list"></i></button>
+                          </div>
+                        </nav>
+                      </div>
+                    </div>
+                    <div class="product-show-content"><p>Showing 1 - 21 of 34 result</p></div>
+                    <div class="product-short-list">
+                      <div class="product-show">
+                        <label for="SortBy">Sort by</label>
+                        <select class="form-select" id="SortBy" aria-label="Default select example">
+                          <option value="manual">Featured</option>
+                          <option value="best-selling">Best Selling</option>
+                          <option value="title-ascending" selected>Alphabetically, A-Z</option>
+                          <option value="title-descending">Alphabetically, Z-A</option>
+                          <option value="price-ascending">Price, low to high</option>
+                          <option value="price-descending">Price, high to low</option>
+                          <option value="created-descending">Date, new to old</option>
+                          <option value="created-ascending">Date, old to new</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
+                <div class="row">
+
+                  {% for product in category_products %}
+                  <div class="col-xl-4 col-md-6">
+                    <!-- Start Product Item -->
+                    <div class="product-item">
+                      <div class="product-thumb">
+                        <a href="{{ product.get_absolute_url }}">
+
+                          {% if product.thumbnail_image %}
+                            <img src="{{ product.thumbnail_image.url }}" alt="Olivine-Shop">
+                          {% endif %}
+                        </a>
+                        <div class="ribbons">
+                          <span class="ribbon ribbon-hot">Sale</span>
+                        </div>
+                        <div class="product-action">
+                          <a class="action-cart" href="#/">
+                            <i class="fas fa-shopping-cart"></i>
+                          </a>
+                          <a class="action-quick-view" href="#/" title="Wishlist">
+                            <i class="fas fa-search"></i>
+                          </a>
+                          <a class="action-compare" href="javascript:void(0);" title="Quick View">
+                             <i class="fas fa-greater-than-equal"></i>
+                          </a>
+                          <a class="action-wishlist" href="javascript:void(0);" title="Quick View">
+                            <i class="far fa-heart"></i>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="product-info">
+                        <h4 class="title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h4>
+                         <div class="prices">
+                          <span class="price">${{ product.price }}</span>
+                          {% if product.old_price %}
+                            <span class="price-old">${{ product.old_price }}</span>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Product Item -->
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+                <div class="row">
+                  {% for product in products %}
+                  <div class="col-12">
+                    <!-- Start Product Item -->
+                    <div class="product-item product-item-list">
+                      <div class="product-thumb">
+                        {% if product.thumbnail_image %}
+                        <a href="{{ product.get_absolute_url }}"><img src="{{ product.thumbnail_image.url }}" alt="Olivine-Shop"></a>
+                        {% endif %}
+                        <div class="product-action-quick-view">
+                          <a class="action-quick-view" href="#/" title="Wishlist">
+                            <i class="fas fa-search"></i>
+                          </a>
+                        </div>
+                        <div class="ribbons">
+                          <span class="ribbon ribbon-hot">Sale</span>
+                        </div>
+                      </div>
+                      <div class="product-info">
+                        <h4 class="title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h4>
+                        <div class="prices">
+                          <span class="price">${{ product.price }}</span>
+                          {% if product.old_price %}
+                            <del class="price-old">${{ product.old_price }}</del>
+                          {% endif %}
+                        </div>
+                        <p>{{ product.description|linebreaks }}</p>
+                        <div class="product-action-btn">
+                          <a class="btn-compare" href="javascript:void(0);">
+                            <i class="fas fa-greater-than-equal"></i>
+                          </a>
+                          <a class="btn-add-cart" href="shop-cart.html">Add to cart</a>
+                          <a class="btn-wishlist" href="shop-wishlist.html">
+                            <i class="far fa-heart"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Product Item -->
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-lg-3">
+            <div class="shop-sidebar-area">
+              <div class="widget">
+                <h3 class="widget-title">Search</h3>
+                <div class="widget-search-box">
+                  <form action="#" method="post">
+                    <div class="form-input-item">
+                      <label for="search2" class="sr-only">Search Here</label>
+                      <input type="search" id="search2" placeholder="Search our store">
+                      <button type="submit" class="btn-src"><i class="fas fa-search"></i></button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="widget">
+                <h3 class="widget-title">Menu</h3>
+                <div class="widget-custom-menu">
+                  <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'shop' %}">Shop</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li class="has-sub">
+                      <a class="collapsed" data-bs-toggle="collapse" href="#has-sub1" role="button"
+                         aria-expanded="false" aria-controls="has-sub1">Categories</a>
+                      <ul class="collapse " id="has-sub1">
+                        {% for category in categories %}
+                          <li><a href="{{ category.url }}">{{ category.name }}({{ category.count }})</a></li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--== End Shop Area Wrapper ==-->
+
+  </main>
+
+
+</div>
+{% endblock content %}
+
