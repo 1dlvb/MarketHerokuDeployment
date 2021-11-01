@@ -15,7 +15,8 @@ from .utils import recalc_cart
 # home page
 def index(request):
     products_for_home_page = []
-    categories = Category.objects.get_categories_for_main_and_shop_pages()
+    if Category.objects.get_categories_for_main_and_shop_pages():
+        categories = Category.objects.get_categories_for_main_and_shop_pages()
     context = {
         'products': LatestProducts.objects.get_products_to_show_on_the_page(True, 'bikes', 'forks', 'wheels',
                                                                             with_respect_to='bikes'),
@@ -25,6 +26,15 @@ def index(request):
     }
 
     return render(request, 'web/index.html', context=context)
+
+
+# Category detail page
+class CategoryDetailView(CartMixin, CategoryDetailMixin, DetailView):
+
+    model = Category
+    queryset = Category.objects.all()
+    context_object_name = 'category'
+    slug_url_kwarg = 'slug'
 
 
 # shop page
@@ -65,15 +75,6 @@ class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
         context = super().get_context_data()
         context['ct_model'] = self.model._meta.model_name
         return context
-
-
-# Category detail page
-class CategoryDetailView(CartMixin, CategoryDetailMixin, DetailView):
-
-    model = Category
-    queryset = Category.objects.all()
-    context_object_name = 'category'
-    slug_url_kwarg = 'slug'
 
 
 # Add to cart
