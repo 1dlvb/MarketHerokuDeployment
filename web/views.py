@@ -17,13 +17,15 @@ def index(request):
     products_for_home_page = []
     if Category.objects.get_categories_for_main_and_shop_pages():
         categories = Category.objects.get_categories_for_main_and_shop_pages()
-    context = {
-        'products': LatestProducts.objects.get_products_to_show_on_the_page(True, 'bikes', 'forks', 'wheels',
-                                                                            with_respect_to='bikes'),
-        'categories': categories,
+        context = {
+            'products': LatestProducts.objects.get_products_to_show_on_the_page(True, 'bikes', 'forks', 'wheels',
+                                                                                with_respect_to='bikes'),
+            'categories': categories,
 
 
-    }
+        }
+    else:
+        context = {}
 
     return render(request, 'web/index.html', context=context)
 

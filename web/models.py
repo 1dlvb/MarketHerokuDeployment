@@ -101,6 +101,7 @@ class CategoryManager(models.Manager):
             dict(name=c.name, url=c.get_absolute_url(), count=getattr(c, self.CATEGORY_NAME_COUNT_NAME[c.name]))
             for c in qs
         ]
+
         return data
 
 
