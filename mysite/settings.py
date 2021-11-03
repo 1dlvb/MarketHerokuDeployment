@@ -1,5 +1,6 @@
 from pathlib import Path
-import os, dj_database_url
+import os
+from decouple import config as cfg
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -8,10 +9,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ae+2y$b)kexf9gdo=z_p580e%y#4^#2o99(!h*eem@ro8y9sb*'
+SECRET_KEY = cfg('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = cfg('DEBUG')
 
 ALLOWED_HOSTS = ['127.0.0.1', 'django-bike-shop.herokuapp.com']
 
@@ -76,15 +77,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 #     }
 #
 # }
-
+# Mysql database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mysql_db',
-        'HOST': '127.0.0.1',
+        'NAME': cfg('DB_NAME'),
+        'HOST': cfg('DB_HOST'),
         'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': 'Nosnosnosnos2!',
+        'USER': cfg('DB_USER'),
+        'PASSWORD': cfg('DB_PASSWORD'),
     }
 }
 
