@@ -9,10 +9,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = cfg('SECRET_KEY')
+# SECRET_KEY = cfg('SECRET_KEY')
+SECRET_KEY = 'django-insecure-ae+2y$b)kexf9gdo=z_p580e%y#4^#2o99(!h*eem@ro8y9sb*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = cfg('DEBUG')
+# DEBUG = cfg('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -78,16 +80,29 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 #
 # }
 # Mysql database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': cfg('DB_NAME'),
+#         'HOST': cfg('DB_HOST'),
+#         'PORT': '3306',
+#         'USER': cfg('DB_USER'),
+#         'PASSWORD': cfg('DB_PASSWORD'),
+#     }
+#
+# }
+# MySQL database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': cfg('DB_NAME'),
-        'HOST': cfg('DB_HOST'),
+        'NAME': 'mysql_db',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
-        'USER': cfg('DB_USER'),
-        'PASSWORD': cfg('DB_PASSWORD'),
+        'USER': 'root',
+        'PASSWORD': 'Nosnosnosnos2!',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
