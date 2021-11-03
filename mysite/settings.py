@@ -14,7 +14,7 @@ SECRET_KEY = cfg('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = cfg('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'django-bike-shop.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
