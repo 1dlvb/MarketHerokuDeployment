@@ -95,11 +95,11 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mysql_db',
-        'HOST': '127.0.0.1',
+        'NAME': 'b76d14158a4bff',
+        'HOST': 'us-cdbr-east-04.cleardb.com',
         'PORT': '3306',
         'USER': 'remroot',
-        'PASSWORD': 'Nosnosnosnos2!',
+        'PASSWORD': '8fca5a05',
     }
 }
 # Password validation
