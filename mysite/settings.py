@@ -95,11 +95,14 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'b76d14158a4bff',
+        'NAME': 'heroku_70a8130149fcd0d',
         'HOST': 'us-cdbr-east-04.cleardb.com',
         'PORT': '3306',
-        'USER': 'remroot',
+        'USER': 'b76d14158a4bff',
         'PASSWORD': '8fca5a05',
+        'OPTIONS': {
+            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"',
+        }
     }
 }
 # Password validation
