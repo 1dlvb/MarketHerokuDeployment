@@ -64,7 +64,7 @@
               <div class="edit-checkout-information">
                 <h4 class="title">Contact information</h4>
                 <div class="logged-in-information">
-                  <div class="thumb" data-bg-img="{% static '/img/photos/gravatar2.png' %}"></div>
+                  <div class="thumb" data-bg-img="{% static 'img/photos/gravatar2.png' %}"></div>
                   <p>
                     <span class="name">olivine</span>
                     <span>(olivine@example.com)</span>
@@ -76,10 +76,12 @@
                   <label class="form-check-label" for="inlineCheckbox1">Keep me up to date on news and exclusive offers</label>
                 </div>
                 <h3 class="text-center mt-3 mb-2">Order form</h3>
+
                   <form action="{% url 'make-order' %}" method="POST">
                     {% csrf_token %}
                     {{form|crispy}}
-                       <input type="submit" class="btn btn-success" value="Buy now">
+                       <input type="submit" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top"
+                              title="Please use only English language." value="Buy now">
                   </form>
               </div>
             </div>
@@ -136,7 +138,6 @@
 </div>
 
 <!--=======================Javascript============================-->
-
 <!--=== Modernizr Min Js ===-->
 <script src="{% static 'js/modernizr.js' %}"></script>
 <!--=== jQuery Min Js ===-->

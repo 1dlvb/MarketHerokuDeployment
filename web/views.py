@@ -4,7 +4,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.views.generic import DetailView, View
 from django.http import HttpResponseRedirect, Http404, HttpResponseNotFound
 from django.contrib import messages
-import MySQLdb
+import unicodedata as ud
+
 
 from .models import Products, Bikes, Cranksets, Forks, Wheels, Accessories, GlassesAndMasks, LatestProducts, Category, \
     Customer, Cart, CartProduct
@@ -164,7 +165,6 @@ class CheckoutView(CartMixin, View):
 
 class MakeOrderView(CartMixin, View):
 
-    errorCode = []
     @transaction.atomic
     def post(self, request, *arg, **kwargs):
         try:

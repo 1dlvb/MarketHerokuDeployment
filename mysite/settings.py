@@ -9,14 +9,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = cfg('SECRET_KEY')
-SECRET_KEY = 'django-insecure-ae+2y$b)kexf9gdo=z_p580e%y#4^#2o99(!h*eem@ro8y9sb*'
+SECRET_KEY = cfg('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = cfg('DEBUG')
-DEBUG = True
+DEBUG = cfg('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 
 # Application definition
@@ -32,6 +30,7 @@ INSTALLED_APPS = [
 
     'multiselectfield',
     'crispy_forms',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -70,41 +69,30 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#
-#
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-#
-# }
-# Mysql database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': cfg('DB_NAME'),
-#         'HOST': cfg('DB_HOST'),
-#         'PORT': '3306',
-#         'USER': cfg('DB_USER'),
-#         'PASSWORD': cfg('DB_PASSWORD'),
-#     }
-#
-# }
-# MySQL database
+# Mysql prod database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_70a8130149fcd0d',
-        'HOST': 'us-cdbr-east-04.cleardb.com',
+        'NAME': cfg('DB_NAME'),
+        'HOST': cfg('DB_HOST'),
         'PORT': '3306',
-        'USER': 'b76d14158a4bff',
-        'PASSWORD': '8fca5a05',
-        'OPTIONS': {
-            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"',
-        }
+        'USER': cfg('DB_USER'),
+        'PASSWORD': cfg('DB_PASSWORD'),
     }
 }
+
+# MySQL dev database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': cfg('DEV_DB_NAME'),
+#         'HOST': cfg('DEV_DB_HOST'),
+#         'PORT': '3306',
+#         'USER': cfg('DEV_DB_USER'),
+#         'PASSWORD': cfg('DEV_DB_PASSWORD'),
+#     }
+# }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -140,13 +128,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+AWS_ACCESS_KEY_ID = cfg('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = cfg('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = 'django-bike-shop'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'mysite.storages.MediaStore'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
