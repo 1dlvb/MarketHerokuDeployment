@@ -137,7 +137,7 @@
                       <div class="product-thumb">
                         <a href="{{ product.get_absolute_url }}">
                           {% if product.thumbnail_image %}
-                            <img src="{{ product.thumbnail_image.url }}" alt="Olivine-Shop">
+                            <img src="{{ MEDIA_URL }}{{ product.thumbnail_image.url }}" alt="Olivine-Shop">
                           {% endif %}
                         </a>
                         <div class="ribbons">
