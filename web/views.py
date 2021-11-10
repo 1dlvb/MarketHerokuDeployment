@@ -1,27 +1,25 @@
-from django.db import transaction, OperationalError
+from django.db import transaction, OperationalError, DataError
 from django.shortcuts import render, get_object_or_404
-from django.contrib.contenttypes.models import ContentType
 from django.views.generic import DetailView, View
 from django.http import HttpResponseRedirect, Http404, HttpResponseNotFound
-from django.contrib import messages
-import unicodedata as ud
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages, auth
 
 
-from .models import Products, Bikes, Cranksets, Forks, Wheels, Accessories, GlassesAndMasks, LatestProducts, Category, \
-    Customer, Cart, CartProduct
-from .mixins import CategoryDetailMixin, CartMixin
-from .forms import OrderForm
+from .models import Product, Customer, Cart, CartProduct, Category
+from .mixins import CartMixin
+from .forms import OrderForm, LoginForm, RegistrationForm
 from .utils import recalc_cart
 
 
 # home page
 def index(request):
     products_for_home_page = []
-    if Category.objects.get_categories_for_main_and_shop_pages():
-        categories = Category.objects.get_categories_for_main_and_shop_pages()
+    if Category.objects.all():
+        categories = Category.objects.all()
         context = {
-            'products': LatestProducts.objects.get_products_to_show_on_the_page(True, 'bikes', 'forks', 'wheels',
-                                                                                with_respect_to='bikes'),
+            'products': Product.objects.all(),
             'categories': categories,
 
 
@@ -33,7 +31,7 @@ def index(request):
 
 
 # Category detail page
-class CategoryDetailView(CartMixin, CategoryDetailMixin, DetailView):
+class CategoryDetailView(CartMixin, DetailView):
 
     model = Category
     queryset = Category.objects.all()
@@ -43,12 +41,10 @@ class CategoryDetailView(CartMixin, CategoryDetailMixin, DetailView):
 
 # shop page
 def shop(request):
-    categories = Category.objects.get_categories_for_main_and_shop_pages()
+    categories = Category.objects.all()
 
     context = {
-        'products': LatestProducts.objects.get_products_to_show_on_the_page(False, 'bikes', 'forks', 'wheels',
-                                                                            'accessories', 'glassesandmasks',
-                                                                            'cranksets'),
+        'products': Product.objects.all(),
         'categories': categories,
 
     }
@@ -56,28 +52,15 @@ def shop(request):
 
 
 # Product detail page
-class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
-    CT_MODEL_MODEL_CLASS = {
-        'bikes': Bikes,
-        'cranksets': Cranksets,
-        'wheels': Wheels,
-        'forks': Forks,
-        'accessories': Accessories,
-        'glasses_and_masks': GlassesAndMasks,
-    }
-
-    def dispatch(self, request, *args, **kwargs):
-        self.model = self.CT_MODEL_MODEL_CLASS[kwargs['ct_model']]
-        self.queryset = self.model._base_manager.all()
-        return super().dispatch(request, *args, **kwargs)
-
+class ProductDetailView(CartMixin, DetailView):
+    model = Product
     context_object_name = 'product'
     template_name = 'web/shop-single-product.html'
     slug_url_kwarg = 'slug'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['ct_model'] = self.model._meta.model_name
+        context['cart'] = self.cart
         return context
 
 
@@ -85,14 +68,12 @@ class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
 class AddToCartView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
-        ct_model, product_slug = kwargs.get('ct_model'), kwargs.get('slug')
-        content_type = ContentType.objects.get(model=ct_model)
-        product = content_type.model_class().objects.get(slug=product_slug)
+        product_slug = kwargs.get('slug')
+        product = Product.objects.get(slug=product_slug)
         cart_product, created = CartProduct.objects.get_or_create(
             customer=self.cart.owner,
             cart=self.cart,
-            content_type=content_type,
-            object_id=product.id,
+            product=product,
         )
         if created:
             self.cart.products.add(cart_product)
@@ -103,14 +84,12 @@ class AddToCartView(CartMixin, View):
 class DeleteFromCartView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
-        ct_model, product_slug = kwargs.get('ct_model'), kwargs.get('slug')
-        content_type = ContentType.objects.get(model=ct_model)
-        product = content_type.model_class().objects.get(slug=product_slug)
+        product_slug = kwargs.get('slug')
+        product = Product.objects.get(slug=product_slug)
         cart_product = CartProduct.objects.get(
             customer=self.cart.owner,
             cart=self.cart,
-            content_type=content_type,
-            object_id=product.id,
+            product=product,
         )
         self.cart.products.remove(cart_product)
         cart_product.delete()
@@ -121,14 +100,12 @@ class DeleteFromCartView(CartMixin, View):
 class ChangeQTYView(CartMixin, View):
 
     def post(self, request, *args, **kwargs):
-        ct_model, product_slug = kwargs.get('ct_model'), kwargs.get('slug')
-        content_type = ContentType.objects.get(model=ct_model)
-        product = content_type.model_class().objects.get(slug=product_slug)
+        product_slug = kwargs.get('slug')
+        product = Product.objects.get(slug=product_slug)
         cart_product = CartProduct.objects.get(
             customer=self.cart.owner,
             cart=self.cart,
-            content_type=content_type,
-            object_id=product.id,
+            product=product,
         )
         qty = int(request.POST.get('qty'))
         cart_product.quantity = qty
@@ -141,7 +118,7 @@ class ChangeQTYView(CartMixin, View):
 class CartView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
-        categories = Category.objects.get_categories_for_main_and_shop_pages()
+        categories = Category.objects.all()
         context = {
             'cart': self.cart,
             'categories': categories
@@ -153,7 +130,7 @@ class CartView(CartMixin, View):
 class CheckoutView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
-        categories = Category.objects.get_categories_for_main_and_shop_pages()
+        categories = Category.objects.all()
         form = OrderForm(request.POST or None)
         context = {
             'cart': self.cart,
@@ -192,7 +169,7 @@ class MakeOrderView(CartMixin, View):
             messages.info(request, "There is some error! Check if you entered data correctly!")
             return HttpResponseRedirect('/shop-checkout')
         except OperationalError:
-            return HttpResponseNotFound('<h1>Page not found<h1>')
+            return render(request, 'web/page-not-found.html')
 
 
 # about page
@@ -207,3 +184,79 @@ def contact(request):
     context = {
     }
     return render(request, 'web/contact.html', context=context)
+
+
+# Registration page
+class RegistrationView(View):
+
+    def get(self, request, *args, **kwargs):
+        form = RegistrationForm(request.POST or None)
+        categories = Category.objects.all()
+        context = {
+            'form': form,
+            'categories': categories,
+        }
+        return render(request, 'web/registration.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        form = RegistrationForm(request.POST or None)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.username = form.cleaned_data['username']
+            new_user.email = form.cleaned_data['email']
+            new_user.first_name = form.cleaned_data['first_name']
+            new_user.last_name = form.cleaned_data['last_name']
+            new_user.save()
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            Customer.objects.create(
+                user=new_user,
+                phone_number=form.cleaned_data['phone_number'],
+            )
+            user = authenticate(
+                  username=form.cleaned_data['username'],
+                  password=form.cleaned_data['password']
+            )
+            login(request, user)
+            return HttpResponseRedirect('/')
+
+        context = {
+            'form': form,
+            'categories': Category.objects.all(),
+        }
+        return render(request, 'web/registration.html', context=context)
+
+
+# Login page
+class LoginView(View):
+
+    def get(self, request, *args, **kwargs):
+        form = LoginForm(request.POST or None)
+        categories = Category.objects.all()
+        context = {
+            'form': form,
+            'categories': categories,
+        }
+        return render(request, 'web/login.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        form = LoginForm(request.POST or None)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(
+                username=username,
+                password=password
+            )
+            if user:
+                login(request, user)
+                return HttpResponseRedirect('/')
+        context = {
+            'form': form,
+        }
+        return render(request, 'web/login.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')

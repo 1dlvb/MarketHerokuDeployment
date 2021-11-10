@@ -44,19 +44,19 @@
                       <td class="pro-product">
                         <div class="product-info">
                           <div class="product-img">
-                            {% if item.content_object.thumbnail_image %}
-                            <a class="img-fluid" href="#"><img src="{{ item.content_object.thumbnail_image.url }}" alt="BikeShop"></a>
+                            {% if item.product.thumbnail_image %}
+                            <a class="img-fluid" href="#"><img src="{{ item.product.thumbnail_image.url }}" alt="BikeShop"></a>
                             {% endif %}
                           </div>
                           <div class="product-info">
-                            <h4><a href="{{ item.content_object.get_absolute_url }}">{{ item.content_object.title }}</a></h4>
+                            <h4><a href="{{ item.product.get_absolute_url }}">{{ item.product.title }}</a></h4>
                           </div>
                         </div>
                       </td>
-                      <td class="pro-price text-center"><span>{{ item.content_object.price }}</span></td>
+                      <td class="pro-price text-center"><span>{{ item.product.price }}</span></td>
                       <td class="pro-quantity text-center">
                         <div class="quick-product-action cart-buttons">
-                          <form id="update-cart" action="{% url 'change-qty' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}" method="POST">
+                          <form id="update-cart" action="{% url 'change-qty' slug=item.product.slug %}" method="POST">
                             {% csrf_token %}
                             <input class="form-control" type="number" min="1" name="qty"  value="{{ item.quantity }}">
                             <input class="btn-shopping ml-0 mt-2" type="submit">
@@ -65,7 +65,7 @@
                       </td>
                       <td class="pro-subtotal text-center"><span>{{ item.final_price }}</span></td>
                       <td class="text-center">
-                        <a href="{% url 'delete-from-cart' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}">
+                        <a href="{% url 'delete-from-cart' slug=item.product.slug %}">
                           <i class="fas fa-times"></i>
                         </a>
                       </td>

@@ -49,9 +49,24 @@
           <div class="col-6">
             <div class="header-top-nav">
               <ul>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/shop-wishlist">Wishlist</a></li>
-                <li><a href="{% url 'cart' %}">cart</a></li>
+                 {% if not request.user.is_authenticated %}
+                  <li><a href="{% url 'login' %}">Log in</a></li>
+                {% endif %}
+                {% if not request.user.is_authenticated %}
+                  <li><a href="{% url 'sign-in' %}">Sign in</a></li>
+                {% endif %}
+
+                {% if request.user.is_authenticated %}
+                  <li><a href="{% url 'logout' %}">Log out</a></li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                  <li><a href="#">{{ request.user.username }}</a></li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                  <li><a href="{% url 'cart' %}">Cart</a></li>
+                {% endif %}
+
+
               </ul>
             </div>
           </div>
@@ -139,11 +154,14 @@
                     </form>
                   </div>
                 </div>
+                {% if request.user.is_authenticated %}
                 <div class="header-action-cart">
                   <a class="cart-icon" href="{% url 'cart' %}">
                     <i class="fas fa-shopping-cart"></i>
                   </a>
                 </div>
+                {% endif %}
+
                 <button class="btn-menu btn-menu-rs d-xl-none">
                   <span></span>
                   <span></span>
@@ -229,7 +247,7 @@
   <!--== End Footer Area Wrapper ==-->
 
   <!--== Scroll Top Button ==-->
-  <div class="scroll-to-top"><span class="fas fa-chevron-up"></span></div>
+  <div class="scroll-to-top mb-3"><span class="fas fa-chevron-up"></span></div>
 
 
   <!--== Start Side Menu ==-->

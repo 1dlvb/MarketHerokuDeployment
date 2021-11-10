@@ -60,7 +60,7 @@
                       <input type="text" id="quantity" title="Quantity" value="1" />
                     </div>
                   </div>
-                  <a class="btn-theme" href="{% url 'add_to_cart' ct_model=ct_model slug=product.slug %}">Add to cart</a>
+                  <a class="btn-theme" href="{% url 'add_to_cart' slug=product.slug %}">Add to cart</a>
                 </div>
                 <div class="action-bottom">
                   <a class="btn-wishlist" href="#"><i class="far fa-heart"></i></a>
