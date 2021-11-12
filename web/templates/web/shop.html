@@ -86,23 +86,36 @@
                     <!-- Start Product Item -->
                     <div class="product-item">
                       <div class="product-thumb">
+                        {% if request.user.is_authenticated %}
                         <a href="{{ product.get_absolute_url }}">
-
                           {% if product.thumbnail_image %}
-                            <img src="{{ product.thumbnail_image.url }}" alt="BikeShop">
+                            <img src="{{ MEDIA_URL }}{{ product.thumbnail_image.url }}" alt="BikeShop">
                           {% endif %}
+                          {% endif %}
+                        </a>
+                        {% if not request.user.is_authenticated %}
+                          <a href="{% url 'login' %}">
+                          {% if product.thumbnail_image %}
+                            <img src="{{ MEDIA_URL }}{{ product.thumbnail_image.url }}" alt="BikeShop">
+                          {% endif %}
+                        {% endif %}
                         </a>
                         <div class="ribbons">
                           <span class="ribbon ribbon-hot">Sale</span>
                         </div>
                         <div class="product-action">
-                            <a class="view" href="{{ product.get_absolute_url }}" title="View">
-                              <i class="fas fa-search"></i>
-                            </a>
-                        </div>
+                             {% if request.user.is_authenticated %}
+                          <a href="{{ product.get_absolute_url }}"><i class="fas fa-search"></i></a>
+                        {% endif %}
+                        {% if not request.user.is_authenticated %}
+                          <a href="{% url 'login' %}"><i class="fas fa-search"></i></a>
+                        {% endif %}
+                      </div>
                       </div>
                       <div class="product-info">
-                        <h4 class="title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h4>
+
+                        <h4 class="title"><a href="{% if request.user.is_authenticated %}{{ product.get_absolute_url }}
+                          {% endif %}{% if not request.user.is_authenticated %}{% url 'login' %}{% endif %}">{{ product.title }}</a></h4>
                          <div class="prices">
                           <span class="price">${{ product.price }}</span>
                           {% if product.old_price %}
@@ -149,7 +162,12 @@
                           <a class="btn-compare" href="javascript:void(0);">
                             <i class="fas fa-greater-than-equal"></i>
                           </a>
-                          <a class="btn-add-cart" href="shop-cart.html">Add to cart</a>
+                          {% if request.user.is_authenticated %}
+                            <a class="btn-add-cart" href="{% url 'add_to_cart' slug=product.slug %}">Add to cart</a>
+                          {% endif %}
+                          {% if not request.user.is_authenticated %}
+                            <a class="btn-add-cart" href="{% url 'login' %}">Add to cart</a>
+                          {% endif %}
                           <a class="btn-wishlist" href="shop-wishlist.html">
                             <i class="far fa-heart"></i>
                           </a>
@@ -193,7 +211,7 @@
                          aria-expanded="false" aria-controls="has-sub1">Categories</a>
                       <ul class="collapse" id="has-sub1">
                         {% for category in categories %}
-                          <li><a href="{{ category.url }}">{{ category.name }}({{ category.count }})</a></li>
+                          <li><a href="{{ category.url }}">{{ category.name }}</a></li>
                         {% endfor %}
                       </ul>
                     </li>

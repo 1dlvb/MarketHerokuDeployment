@@ -135,22 +135,39 @@
                         <!-- Start Product Item -->
                     <div class="product-item">
                       <div class="product-thumb">
+                        {% if request.user.is_authenticated %}
                         <a href="{{ product.get_absolute_url }}">
                           {% if product.thumbnail_image %}
                             <img src="{{ MEDIA_URL }}{{ product.thumbnail_image.url }}" alt="BikeShop">
                           {% endif %}
+                          {% endif %}
+                        </a>
+                        {% if not request.user.is_authenticated %}
+                          <a href="{% url 'login' %}">
+                          {% if product.thumbnail_image %}
+                            <img src="{{ MEDIA_URL }}{{ product.thumbnail_image.url }}" alt="BikeShop">
+                          {% endif %}
+                        {% endif %}
                         </a>
                         <div class="ribbons">
                           <span class="ribbon ribbon-hot">Sale</span>
                         </div>
                         <div class="product-action">
-                            <a class="view" href="{{ product.get_absolute_url }}" title="View">
-                              <i class="fas fa-search"></i>
-                            </a>
-                        </div>
+                             {% if request.user.is_authenticated %}
+                          <a href="{{ product.get_absolute_url }}"><i class="fas fa-search"></i></a>
+                        {% endif %}
+                        {% if not request.user.is_authenticated %}
+                          <a href="{% url 'login' %}"><i class="fas fa-search"></i></a>
+                        {% endif %}
                       </div>
+                      </div>
+
                       <div class="product-info">
-                        <h4 class="title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h4>
+
+                          <h4 class="title"><a href="{% if request.user.is_authenticated %}{{ product.get_absolute_url }}
+                          {% endif %}{% if not request.user.is_authenticated %}{% url 'login' %}{% endif %}">{{ product.title }}</a></h4>
+
+
                         <div class="prices">
                           <span class="price">${{ product.price }}</span>
                           {% if product.old_price %}

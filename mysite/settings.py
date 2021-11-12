@@ -80,8 +80,8 @@ DATABASES = {
         'PASSWORD': cfg('DB_PASSWORD'),
     }
 }
-
-# MySQL dev database
+# (in my.ini max_allowed_packet=4M by default, but now the value is 64)
+# # MySQL dev database
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',

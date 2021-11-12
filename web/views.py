@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages, auth
 
 
-from .models import Product, Customer, Cart, CartProduct, Category
+from .models import Product, Customer, Cart, CartProduct, Category, Order
 from .mixins import CartMixin
 from .forms import OrderForm, LoginForm, RegistrationForm
 from .utils import recalc_cart
@@ -151,7 +151,7 @@ class MakeOrderView(CartMixin, View):
                 new_order = form.save(commit=False)
                 new_order.customer = customer
                 new_order.first_name = form.cleaned_data['first_name']
-                new_order.second_name = form.cleaned_data['second_name']
+                new_order.last_name = form.cleaned_data['last_name']
                 new_order.phone_number = form.cleaned_data['phone_number']
                 new_order.address = form.cleaned_data['address']
                 new_order.buying_type = form.cleaned_data['buying_type']
@@ -260,3 +260,17 @@ class LoginView(View):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+
+class ProfileView(CartMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        customer = Customer.objects.get(user=request.user)
+        orders = Order.objects.filter(customer=customer).order_by('-created_at')
+        categories = Category.objects.all()
+        context = {
+            'orders': orders,
+            'cart': self.cart,
+            'categories': categories,
+        }
+        return render(request, 'web/profile.html', context=context)

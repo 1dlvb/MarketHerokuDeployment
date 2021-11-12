@@ -150,7 +150,7 @@ class Order(models.Model):
 
     customer = models.ForeignKey(Customer, verbose_name='Buyer', related_name='related_orders', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255, verbose_name='Name')
-    second_name = models.CharField(max_length=255, verbose_name='Second Name')
+    last_name = models.CharField(max_length=255, verbose_name='Last Name')
     phone_number = models.CharField(max_length=22, verbose_name='Phone Number')
     cart = models.ForeignKey(Cart, verbose_name='Cart', on_delete=models.CASCADE, null=True, blank=True)
     address = models.CharField(max_length=255, verbose_name='Address, ZIP Code', null=True, blank=True)

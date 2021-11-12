@@ -91,7 +91,8 @@
                 <div class="col-lg-6">
                   <div class="culculate-shipping">
                     <h3 class="title">Special instructions for seller</h3>
-                    <form action="#">
+                    <form method="POST">
+                      {% csrf_token %}
                       <div class="form-group">
                         <textarea class="form-control"></textarea>
                       </div>
@@ -117,7 +118,9 @@
                         </tr>
                       </tbody>
                     </table>
-                    <a class="btn-theme" href="{% url 'shop-checkout' %}">Proceed to Checkout</a>
+                    {% if cart.products.count %}
+                      <a class="btn-theme" href="{% url 'shop-checkout' %}">Proceed to Checkout</a>
+                    {% endif %}
                   </div>
                 </div>
               </div>

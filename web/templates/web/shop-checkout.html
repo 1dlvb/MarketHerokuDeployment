@@ -64,11 +64,12 @@
               <div class="edit-checkout-information">
                 <h4 class="title">Contact information</h4>
                 <div class="logged-in-information">
-                  <div class="thumb" data-bg-img="{% static 'img/photos/gravatar2.png' %}"></div>
+                  <div class="thumb" data-bg-img="{% static 'img/user_avatar.png' %}"></div>
                   <p>
-                    <span class="name">olivine</span>
-                    <span>(olivine@example.com)</span>
-                    <a href="#">Log out</a>
+                      {% if request.user.is_authenticated %}
+                    <span class="name">{{ request.user.username }}</span>
+                    <span>({{ request.user.email }})</span>
+                        {% endif %}
                   </p>
                 </div>
                 <div class="form-check form-check-inline">
@@ -115,7 +116,7 @@
                     <p class="total">Total</p>
                     <p class="price"><span class="usd">USD</span>${{ cart.final_price }}</p>
                   </div>
-                  <a class="btn-return" href="shop-cart.html">Return to cart</a>
+                  <a class="btn-return" href="{% url 'cart' %}">Return to cart</a>
                     <div class="btn-box mt-5">
                     <div class="border-top">
                         <p class="mt-2">All rights reserved 1dlvb</p>

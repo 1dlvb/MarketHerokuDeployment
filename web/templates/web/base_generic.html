@@ -60,13 +60,11 @@
                   <li><a href="{% url 'logout' %}">Log out</a></li>
                 {% endif %}
                 {% if request.user.is_authenticated %}
-                  <li><a href="#">{{ request.user.username }}</a></li>
+                  <li><a href="{% url 'profile' %}">{{ request.user.username }}</a></li>
                 {% endif %}
                 {% if request.user.is_authenticated %}
                   <li><a href="{% url 'cart' %}">Cart</a></li>
                 {% endif %}
-
-
               </ul>
             </div>
           </div>
@@ -88,56 +86,10 @@
             <div class="header-align">
               <div class="header-navigation-area">
                 <ul class="main-menu nav justify-content-center">
-                  <li class="has-submenu active"><a href="{% url 'index' %}">Home</a>
-                  </li>
-                  <li class="has-submenu full-width"><a href="/shop">Shop</a>
-                    <ul class="submenu-nav submenu-nav-mega">
-                      <li class="mega-menu-item"><a class="srmenu-title" href="#">Collection 01</a>
-                        <ul>
-                          <li><a href="shop-single-product-title1.html">Mostarizing Oil</a></li>
-                          <li><a href="shop-single-product-title1.html">Katopeno Altuni</a></li>
-                          <li><a href="shop-single-product-title1.html">Buffekete Chai</a></li>
-                          <li><a href="shop-single-product-title1.html">Simple product</a></li>
-                          <li><a href="shop-single-product-title1.html">Vortahole Valohoi</a></li>
-                        </ul>
-                      </li>
-                      <li class="mega-menu-item"><a class="srmenu-title" href="#">Collection 02</a>
-                        <ul>
-                          <li><a href="shop-single-product-title1.html">Murikhete Paris</a></li>
-                          <li><a href="shop-single-product-title1.html">Origeno Veledita</a></li>
-                          <li><a href="shop-single-product-title1.html">Simple product</a></li>
-                          <li><a href="shop-single-product-title1.html">Vortahole Valohoi</a></li>
-                          <li><a href="shop-single-product-title1.html">Baizidale Momone</a></li>
-                          <li><a href="shop-single-product-title1.html">Soldout product</a></li>
-                        </ul>
-                      </li>
-                      <li class="mega-menu-item"><a class="srmenu-title" href="#">Collection 03</a>
-                        <ul>
-                          <li><a href="shop-single-product-title1.html">New Badge Product</a></li>
-                          <li><a href="shop-single-product-title1.html">Origeno Veledita</a></li>
-                          <li><a href="shop-single-product-title1.html">Baizidale Momone</a></li>
-                          <li><a href="shop-single-product-title1.html">Origeno Veledita</a></li>
-                          <li><a href="shop-single-product-title1.html">Countdown product</a></li>
-                          <li><a href="shop-single-product-title1.html">Murikhete Paris</a></li>
-                        </ul>
-                      </li>
-                      <li class="mega-menu-item banner-menu-content-wrap">
-                        <ul>
-                          <li>
-                            <a href="shop-single-product-title1.html">
-                              <img src="{% static 'img/photos/menu1.jpg' %}" alt="BikeShop">
-                            </a>
-                            <div class="banner-menu-content">
-                              <h2>New <br>Collections</h2>
-                            </div>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <li><a href="/about">About</a></li>
-                  <li><a href="/contact">Contact</a></li>
+                  <li><a href="{% url 'index' %}">Home</a></li>
+                  <li><a href="{% url 'shop' %}">Shop</a></li>
+                  <li><a href="{% url 'about' %}">About</a></li>
+                  <li><a href="{% url 'contact' %}">Contact</a></li>
                 </ul>
               </div>
               <div class="header-action-area">

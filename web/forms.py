@@ -10,12 +10,17 @@ class OrderForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['order_date'].label = 'Date of receipt of the order'
     order_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Your first name...'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Your last name...'}))
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Your phone number name...'}))
+    address = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Your address, ZIP code...'}))
 
     class Meta:
         model = Order
         fields = (
-            'first_name', 'second_name', 'phone_number', 'address', 'buying_type', 'order_date',
+            'first_name', 'last_name', 'phone_number', 'address', 'buying_type', 'order_date',
         )
+
 
 # Login form
 class LoginForm(forms.ModelForm):
