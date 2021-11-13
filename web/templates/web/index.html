@@ -94,7 +94,12 @@
         {% for category in categories %}
           <div class="col-lg-2 col-md-4 col-6">
             <div class="categorie-content " style="height: 100%;">
-              <h4 class="title"><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></h4>
+              {% if request.user.is_authenticated %}
+                <h4 class="title"><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></h4>
+              {% endif %}
+              {% if not request.user.is_authenticated %}
+                <h4 class="title"><a href="{% url 'login' %}">{{ category.name }}</a></h4>
+              {% endif %}
             </div>
           </div>
        {% endfor %}
@@ -121,7 +126,6 @@
                   <button class="nav-link active" id="new-product-tab" data-bs-toggle="tab" data-bs-target="#new-product"
                           type="button" role="tab" aria-controls="new-product" aria-selected="true">New Arrivals</button>
                 </li>
-
               </ul>
 
               <div class="tab-content" id="myTabContent">
@@ -155,9 +159,15 @@
                         <div class="product-action">
                              {% if request.user.is_authenticated %}
                           <a href="{{ product.get_absolute_url }}"><i class="fas fa-search"></i></a>
+                          <a class="action-cart" href="{% url 'add_to_cart' slug=product.slug %}">
+                              <i class="fas fa-shopping-cart"></i>
+                          </a>
                         {% endif %}
                         {% if not request.user.is_authenticated %}
                           <a href="{% url 'login' %}"><i class="fas fa-search"></i></a>
+                          <a class="action-cart" href="{% url 'login' %}">
+                              <i class="fas fa-shopping-cart"></i>
+                          </a>
                         {% endif %}
                       </div>
                       </div>

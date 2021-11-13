@@ -21,7 +21,7 @@
   <!--== End Preloader Content ==-->
 
 
-  
+
   <main class="main-content">
     <!--== Start Page Title Area ==-->
     <section class="page-title-area">
@@ -106,9 +106,15 @@
                         <div class="product-action">
                              {% if request.user.is_authenticated %}
                           <a href="{{ product.get_absolute_url }}"><i class="fas fa-search"></i></a>
+                          <a class="action-cart" href="{% url 'add_to_cart' slug=product.slug %}">
+                              <i class="fas fa-shopping-cart"></i>
+                          </a>
                         {% endif %}
                         {% if not request.user.is_authenticated %}
                           <a href="{% url 'login' %}"><i class="fas fa-search"></i></a>
+                          <a class="action-cart" href="{% url 'login' %}">
+                              <i class="fas fa-shopping-cart"></i>
+                          </a>
                         {% endif %}
                       </div>
                       </div>
@@ -140,11 +146,20 @@
                         {% if product.thumbnail_image %}
                         <a href="{{ product.get_absolute_url }}"><img src="{{ product.thumbnail_image.url }}" alt="BikeShop"></a>
                         {% endif %}
-                        <div class="product-action">
-                            <a class="view" href="{{ product.get_absolute_url }}" title="View">
-                              <i class="fas fa-search"></i>
+                         <div class="product-action">
+                               {% if request.user.is_authenticated %}
+                            <a href="{{ product.get_absolute_url }}"><i class="fas fa-search"></i></a>
+                            <a class="action-cart" href="{% url 'add_to_cart' slug=product.slug %}">
+                                <i class="fas fa-shopping-cart"></i>
                             </a>
-                          </div>
+                          {% endif %}
+                          {% if not request.user.is_authenticated %}
+                            <a href="{% url 'login' %}"><i class="fas fa-search"></i></a>
+                            <a class="action-cart" href="{% url 'login' %}">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                          {% endif %}
+                        </div>
                         <div class="ribbons">
                           <span class="ribbon ribbon-hot">Sale</span>
                         </div>
@@ -211,7 +226,13 @@
                          aria-expanded="false" aria-controls="has-sub1">Categories</a>
                       <ul class="collapse" id="has-sub1">
                         {% for category in categories %}
-                          <li><a href="{{ category.url }}">{{ category.name }}</a></li>
+                          {% if request.user.is_authenticated %}
+                            <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+                          {% endif %}
+                          {% if not request.user.is_authenticated %}
+                            <li><a href="{% url 'login' %}">{{ category.name }}</a></li>
+                          {% endif %}
+
                         {% endfor %}
                       </ul>
                     </li>

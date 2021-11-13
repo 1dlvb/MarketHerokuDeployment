@@ -1,4 +1,5 @@
 from django.db import transaction, OperationalError, DataError
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView, View
 from django.http import HttpResponseRedirect, Http404, HttpResponseNotFound
@@ -37,6 +38,33 @@ class CategoryDetailView(CartMixin, DetailView):
     queryset = Category.objects.all()
     context_object_name = 'category'
     slug_url_kwarg = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('search')
+        category = self.get_object()
+        context['cart'] = self.cart
+        context['categories'] = self.model.objects.all()
+        if not query and not self.request.GET:
+            context['category_products'] = category.product_set.all()
+            return context
+        if query:
+            products = category.product_set.filter(Q(title__icontains=query))
+            context['category_products'] = products
+            return context
+        url_kwargs = {}
+        for item in self.request.GET:
+            if len(self.request.GET.getlist(item)) > 1:
+                url_kwargs[item] = self.request.GET.getlist(item)
+            else:
+                url_kwargs[item] = self.request.GET.get(item)
+        q_condition_queries = Q()
+        for key, value in url_kwargs.items():
+            if isinstance(value, list):
+                q_condition_queries.add(Q(**{'value__in': value}), Q.OR)
+            else:
+                q_condition_queries.add(Q(**{'value': value}), Q.OR)
+        return context
 
 
 # shop page
