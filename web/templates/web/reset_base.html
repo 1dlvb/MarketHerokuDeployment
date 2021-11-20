@@ -1,0 +1,211 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bike shop - Bike Lovers Deserve Better</title>
+    <!--== Favicon ==-->
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
+    <!--== Google Fonts ==-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico:400" rel="stylesheet">
+    <!--== Font-awesome Icons CSS ==-->
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">    <!--== Icofont Min Icons CSS ==-->
+    <link href="{% static 'css/icofont.min.css' %}" rel="stylesheet"/>
+    <!--== Fontello CSS ==-->
+    <link href="{% static 'css/fontello.css' %}" rel="stylesheet"/>
+    <!--== Vandella CSS ==-->
+    <link href="{% static 'css/font-vandella.css' %}" rel="stylesheet"/>
+    <!--== Animate CSS ==-->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet"/>
+    <!--== Aos CSS ==-->
+    <link href="{% static 'css/aos.css' %}" rel="stylesheet"/>
+    <!--== FancyBox CSS ==-->
+    <link href="{% static 'css/jquery.fancybox.min.css' %}" rel="stylesheet"/>
+    <!--== Slicknav CSS ==-->
+    <link href="{% static 'css/slicknav.css' %}" rel="stylesheet"/>
+    <!--== Swiper CSS ==-->
+    <link href="{% static 'css/swiper.min.css' %}" rel="stylesheet"/>
+    <!--== Main Style CSS ==-->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
+    <!--  Bootstrap  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--  Font Awesome  -->
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+</head>
+<body>
+<!--== Start Header Wrapper ==-->
+  <header class="header-wrapper">
+    <div class="header-top">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-6">
+            <div class="header-info">123 456 789</div>
+          </div>
+          <div class="col-6">
+            <div class="header-top-nav">
+              <ul>
+                 {% if not request.user.is_authenticated %}
+                  <li><a href="{% url 'login' %}">Log in</a></li>
+                {% endif %}
+                {% if not request.user.is_authenticated %}
+                  <li><a href="{% url 'sign-in' %}">Sign in</a></li>
+                {% endif %}
+
+                {% if request.user.is_authenticated %}
+                  <li><a href="{% url 'logout' %}">Log out</a></li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                  <li><a href="{% url 'profile' %}">{{ request.user.username }}</a></li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                  <li><a href="{% url 'cart' %}">Cart</a></li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-area header-default sticky-header">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-5 col-sm-3 col-md-3 col-lg-2">
+            <div class="header-logo-area">
+              <a href="{% url 'index' %}">
+                <img class="logo-main" src="{% static 'img/logo-bikeshop.png' %}" alt="Logo" />
+                <img class="logo-light" src="{% static 'img/logo-bikeshop.png' %}" alt="Logo" />
+              </a>
+            </div>
+          </div>
+          <div class="col-7 col-sm-9 col-md-9 col-lg-10">
+            <div class="header-align">
+              <div class="header-navigation-area">
+                <ul class="main-menu nav justify-content-center">
+                  <li><a href="{% url 'index' %}">Home</a></li>
+                  <li><a href="{% url 'shop' %}">Shop</a></li>
+                  <li><a href="{% url 'about' %}">About</a></li>
+                  <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+              </div>
+              <div class="header-action-area">
+                <div class="header-action-search header-search-rs">
+                  <div class="btn-search-content">
+                    <form action="#" method="post">
+                      <div class="form-input-item">
+                        <label for="search" class="sr-only">Search our store</label>
+                        <input type="text" id="search" placeholder="Search our store">
+                        <button type="submit" class="btn-src">
+                          <i class="fas fa-search"></i>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                {% if request.user.is_authenticated %}
+                <div class="header-action-cart">
+                  <a class="cart-icon" href="{% url 'cart' %}">
+                    <i class="fas fa-shopping-cart"></i>
+                  </a>
+                </div>
+                {% endif %}
+
+                <button class="btn-menu btn-menu-rs d-xl-none">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--== End Header Wrapper ==-->
+
+{% block content %}
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+      <strong>{{ message }}</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+  {% endfor %}
+{% endif %}
+{% endblock %}
+
+  <!--== Scroll Top Button ==-->
+  <div class="scroll-to-top mb-3"><span class="fas fa-chevron-up"></span></div>
+
+
+  <!--== Start Side Menu ==-->
+  <aside class="off-canvas-wrapper">
+    <div class="off-canvas-inner">
+      <div class="off-canvas-overlay d-none"></div>
+      <!-- Start Off Canvas Content Wrapper -->
+      <div class="off-canvas-content">
+        <!-- Off Canvas Header -->
+        <div class="off-canvas-header">
+          <div class="close-action">
+            <button class="btn-close"><i class="fa fa-times-circle"></i></button>
+          </div>
+        </div>
+
+        <div class="off-canvas-item">
+          <!-- Start Mobile Menu Wrapper -->
+          <div class="res-mobile-menu">
+            <!-- Note Content Auto Generate By Jquery From Main Menu -->
+          </div>
+          <!-- End Mobile Menu Wrapper -->
+        </div>
+        <!-- Off Canvas Footer -->
+        <div class="off-canvas-footer"></div>
+      </div>
+      <!-- End Off Canvas Content Wrapper -->
+    </div>
+  </aside>
+  <!--== End Side Menu ==-->
+
+<!--=======================Javascript============================-->
+
+<!--=== Modernizr Min Js ===-->
+<script src="{% static 'js/modernizr.js' %}"></script>
+<!--=== jQuery Min Js ===-->
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<!--=== jQuery Migration Min Js ===-->
+<script src="{% static 'js/jquery-migrate.js' %}"></script>
+<!--=== Popper Min Js ===-->
+<script src="{% static 'js/popper.min.js' %}"></script>
+<!--=== Bootstrap Min Js ===-->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!--=== jquery Appear Js ===-->
+<script src="{% static 'js/jquery.appear.js' %}"></script>
+<!--=== jquery Swiper Min Js ===-->
+<script src="{% static 'js/swiper.min.js' %}"></script>
+<!--=== jQuery Slick Min Js ===-->
+<script src="{% static 'js/slick.min.js' %}"></script>
+<!--=== jquery Fancybox Min Js ===-->
+<script src="{% static 'js/fancybox.min.js' %}"></script>
+<!--=== jquery Aos Min Js ===-->
+<script src="{% static 'js/aos.min.js' %}"></script>
+<!--=== jquery Slicknav Js ===-->
+<script src="{% static 'js/jquery.slicknav.js' %}"></script>
+<!--=== jquery Countdown Js ===-->
+<script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+<!--=== jquery Wow Min Js ===-->
+<script src="{% static 'js/wow.min.js' %}"></script>
+<!--=== jQuery Zoom Min Js ===-->
+<script src="{% static 'js/jquery-zoom.min.js' %}"></script>
+
+<!--=== Custom Js ===-->
+<script src="{% static 'js/custom.js' %}"></script>
+
+</body>
+</html>

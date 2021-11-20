@@ -48,7 +48,7 @@
                             {{ form|crispy }}
                             <input type="submit" class="btn btn-success" value="LOG IN">
                         <div class="form-group mb-0 form-group-info">
-                          <a class="btn-forgot" href="#">Forgot your password?</a>
+                          <a class="btn-forgot" href="{% url 'password_reset' %}">Forgot your password?</a>
                         </div>
                         <div class="form-group mb-0">
                           <a class="btn-create" href="{% url 'sign-in' %}">Create account?</a>
