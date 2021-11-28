@@ -14,6 +14,7 @@ from .views import (
     RegistrationView,
     ProfileView,
 
+
 )
 
 urlpatterns = [

@@ -1,17 +1,26 @@
-from django.db import transaction, OperationalError, DataError
+from django.db import transaction, OperationalError
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.views.generic import DetailView, View
-from django.http import HttpResponseRedirect, Http404, HttpResponseNotFound
+from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages, auth
+from django.contrib import messages
+from django.template.defaulttags import register
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
 
 
 from .models import Product, Customer, Cart, CartProduct, Category, Order
 from .mixins import CartMixin
-from .forms import OrderForm, LoginForm, RegistrationForm
+from .forms import OrderForm, LoginForm, RegistrationForm, ContactForm
 from .utils import recalc_cart
+from decouple import config as cfg
+
+
+@register.filter
+def get_range(value):
+    return range(value)
 
 
 # home page
@@ -209,8 +218,32 @@ def about(request):
 
 # contact page
 def contact(request):
-    context = {
-    }
+    if request.method == 'POST':
+        name = request.POST.get('full-name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        checkbox = request.POST.get('checkbox')
+
+        context = {
+            'name': name,
+            'email': email,
+            'subject': subject,
+            'message': message,
+            'checkbox': checkbox,
+        }
+        if request.user.username:
+            username = request.user.username
+        else:
+            username = ' '
+        message = f"MESSAGE: {message}\n\n\n\n EMAIL: {email}\n USERNAME: {username}\n"
+        email = EmailMessage(subject=subject, body=message, from_email=email,
+                             to=[settings.EMAIL_HOST_USER], bcc=[cfg('EMAIL_HOST_USER')])
+        email.fail_silently = False
+        email.send()
+        return render(request, 'web/contact.html', context=context)
+
+    context = {}
     return render(request, 'web/contact.html', context=context)
 
 

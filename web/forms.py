@@ -81,3 +81,14 @@ class RegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'password', 'confirm_password', 'first_name', 'last_name', 'phone_number', 'email']
+
+
+class ContactForm(forms.ModelForm):
+    name = forms.CharField(max_length=255, required=True)
+    email = forms.EmailField(required=True, widget=forms.EmailInput)
+    your_subject = forms.CharField(widget=forms.Textarea)
+    message = forms.CharField(required=True, widget=forms.Textarea)
+
+    class Meta:
+        model = User
+        fields = ['name', 'email', 'your_subject', 'message']

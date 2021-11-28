@@ -2,6 +2,8 @@
 <html lang="en">
 {% extends 'web/base_generic.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+
 <body>
 {% block content %}
 
@@ -27,44 +29,74 @@
         <div class="row flex-row-reverse">
           <div class=" col-lg-9 col-md-8">
             <div class="contact-form mb-sm-30">
-              <form class="contact-form-wrapper" id="contact-form" action="http://whizthemes.com/mail-php/raju/arden/mail.php" method="post">
-                <div class="row">
-                  <div class="col-lg-10 m-auto">
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <div class="section-title">
-                          <h2 class="title">Get In Touch</h2>
-                        </div>
+              <form class="needs-validation ml-5" novalidate method="POST">
+
+                  {% csrf_token %}
+                  <div class="col-md-12 mb-3">
+                    <label for="validationCustom01">Full name*</label>
+                    <input type="text" class="form-control" id="validationCustom01" name="full-name" placeholder="First name" value="Mark" required>
+                    <div class="valid-feedback">
+                      Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter your full name.
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 mb-3">
+                    <label for="validationCustom01">Email*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend">@</span>
                       </div>
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <input class="form-control" type="text" name="con_name" placeholder="Your Name...">
-                        </div>
+                    <input type="Email" class="form-control" id="validationCustom03" name="email" placeholder="example@example.com"
+                           required aria-describedby="inputGroupPrepend">
+
+                      <div class="invalid-feedback">
+                        Please enter a email.
                       </div>
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <input class="form-control" type="email" name="con_email" placeholder="Your Email...">
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <input class="form-control" type="text" name="con_phone" placeholder="Your Subject...">
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div class="form-group mb-0">
-                          <textarea class="form-control textarea" name="con_message" placeholder="Your Message"></textarea>
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div class="form-group mb-0">
-                          <button class="btn btn-theme btn-black" type="submit">Send</button>
-                        </div>
+                    </div>
+                    <div class="valid-feedback">
+                      Looks good!
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 mb-3">
+                    <label for="validationCustom01">Subject*</label>
+                    <input type="text" class="form-control" id="validationCustom04" name="subject" placeholder="Subject" value="Proposal" required>
+                    <div class="valid-feedback">
+                      Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter your subject.
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 mb-3">
+                    <label for="validationCustom01">Message*</label>
+                    <textarea type="text" class="form-control" id="validationCustom05" name="message" placeholder="Message" required></textarea>
+                    <div class="valid-feedback">
+                      Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter your message.
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 mb-3 form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" name="checkbox" id="invalidCheck" required>
+                      <label class="form-check-label" for="invalidCheck">
+                        Agree to terms and conditions
+                      </label>
+                      <div class="invalid-feedback">
+                        You must agree before submitting.
                       </div>
                     </div>
                   </div>
-                </div>
+                  <button class="btn btn-primary btn-block" type="submit">Submit form</button>
               </form>
+
             </div>
             <!-- Message Notification -->
             <div class="form-message"></div>
@@ -108,11 +140,30 @@
 
     <!--== Start Map Area ==-->
     <div class="contact-map-area">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8402891185374!2d144.95373631590425!3d-37.81720974201477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2ssg!4v1607294780661!5m2!1sen!2ssg"></iframe>
+      <iframe src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Igra,%20microrayon%20Neftyanicov,%205+(BikeShop)&amp;t=h&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
     </div>
     <!--== End Map Area ==-->
   </main>
 
+<script>
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
 {% endblock %}
 </body>
 </html>
