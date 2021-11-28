@@ -40,6 +40,7 @@ def index(request):
     return render(request, 'web/index.html', context=context)
 
 
+# ###### CATEGORY VIEWS ###### #
 # Category detail page
 class CategoryDetailView(CartMixin, DetailView):
 
@@ -76,6 +77,7 @@ class CategoryDetailView(CartMixin, DetailView):
         return context
 
 
+# ###### SHOP VIEWS ###### #
 # shop page
 def shop(request):
     categories = Category.objects.all()
@@ -101,6 +103,7 @@ class ProductDetailView(CartMixin, DetailView):
         return context
 
 
+# ###### CART VIEWS ###### #
 # Add to cart
 class AddToCartView(CartMixin, View):
 
@@ -209,47 +212,7 @@ class MakeOrderView(CartMixin, View):
             return render(request, 'web/page-not-found.html')
 
 
-# about page
-def about(request):
-    context = {
-    }
-    return render(request, 'web/about.html', context=context)
-
-
-# contact page
-def contact(request):
-    if request.method == 'POST':
-        name = request.POST.get('full-name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
-        checkbox = request.POST.get('checkbox')
-
-        context = {
-            'name': name,
-            'email': email,
-            'subject': subject,
-            'message': message,
-            'checkbox': checkbox,
-        }
-        if request.user.username:
-            username = request.user.username
-        else:
-            username = ' '
-        message = f"MESSAGE: {message}\n\n\n\n EMAIL: {email}\n USERNAME: {username}\n"
-        email = EmailMessage(
-            subject,
-            message,
-            settings.EMAIL_HOST_USER,
-            [cfg('EMAIL_HOST_USER')])
-        email.fail_silently = False
-        email.send()
-        return render(request, 'web/contact.html', context=context)
-
-    context = {}
-    return render(request, 'web/contact.html', context=context)
-
-
+# ###### AUTH VIEWS ###### #
 # Registration page
 class RegistrationView(View):
 
@@ -338,3 +301,46 @@ class ProfileView(CartMixin, View):
             'categories': categories,
         }
         return render(request, 'web/profile.html', context=context)
+
+
+# ###### OTHER VIEWS ###### #
+# about page
+def about(request):
+    context = {
+    }
+    return render(request, 'web/about.html', context=context)
+
+
+# contact page
+def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('full-name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        checkbox = request.POST.get('checkbox')
+
+        context = {
+            'name': name,
+            'email': email,
+            'subject': subject,
+            'message': message,
+            'checkbox': checkbox,
+        }
+        if request.user.username:
+            username = request.user.username
+        else:
+            username = ' '
+        message = f"MESSAGE: {message}\n\n\n\n EMAIL: {email}\n USERNAME: {username}\n"
+        email = EmailMessage(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [cfg('EMAIL_HOST_USER')])
+        email.fail_silently = False
+        email.send()
+        return render(request, 'web/contact.html', context=context)
+
+    context = {}
+    return render(request, 'web/contact.html', context=context)
+

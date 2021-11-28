@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from .models import Order
 
 
+# Order form
 class OrderForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -83,6 +84,7 @@ class RegistrationForm(forms.ModelForm):
         fields = ['username', 'password', 'confirm_password', 'first_name', 'last_name', 'phone_number', 'email']
 
 
+# Contact send email Form
 class ContactForm(forms.ModelForm):
     name = forms.CharField(max_length=255, required=True)
     email = forms.EmailField(required=True, widget=forms.EmailInput)

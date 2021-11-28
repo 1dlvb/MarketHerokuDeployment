@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.files.images import get_image_dimensions
-from multiselectfield import MultiSelectField
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils import timezone
@@ -9,19 +8,8 @@ from django.utils import timezone
 
 User = get_user_model()
 
-# --------------- #
-# Category        |
-# Product         |
-# CartProduct     |
-# Cart            |
-# Order           |
-# --------------- #
-# Customer        |
-# Specifications  |
-# --------------- #
 
 # FUNCTIONS
-
 # check image size function
 def check_image(image, size_w, size_h):
     if not image:
@@ -36,7 +24,7 @@ def check_image(image, size_w, size_h):
 
 # CLASSES and MODELS
 
-# Category
+# Categories
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name='Category name')
     slug = models.SlugField(unique=True)
@@ -81,6 +69,7 @@ class Product(models.Model):
         return self.__class__.__name__.lower()
 
 
+# ##### CART MODELS ##### #
 # Cart Product
 class CartProduct(models.Model):
     customer = models.ForeignKey('Customer', verbose_name='Customer', on_delete=models.CASCADE)
@@ -148,7 +137,8 @@ class Order(models.Model):
         (STATUS_IN_PROGRESS, 'Delivery'),
     )
 
-    customer = models.ForeignKey(Customer, verbose_name='Buyer', related_name='related_orders', on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, verbose_name='Buyer', related_name='related_orders',
+                                 on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255, verbose_name='Name')
     last_name = models.CharField(max_length=255, verbose_name='Last Name')
     phone_number = models.CharField(max_length=22, verbose_name='Phone Number')
@@ -170,16 +160,3 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.id)
-
-
-###################
-MATERIAL = ((1, 'Carbon'),
-            (2, 'Aluminium'),
-            (3, 'Titan'),
-            (4, 'Steel'))
-
-WHEEL_SIZE = ((1, '24'),
-              (2, '26'),
-              (3, '27.5'),
-              (4, '29'))
-
