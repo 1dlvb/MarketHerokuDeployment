@@ -69,30 +69,30 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# Mysql prod database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': cfg('DB_NAME'),
-#         'HOST': cfg('DB_HOST'),
-#         'PORT': '3306',
-#         'USER': cfg('DB_USER'),
-#         'PASSWORD': cfg('DB_PASSWORD'),
-#     }
-# }
-
-# (in my.ini max_allowed_packet=4M by default, but now the value is 64)
-# MySQL dev database
+## Mysql prod database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': cfg('DEV_DB_NAME'),
-        'HOST': cfg('DEV_DB_HOST'),
+        'NAME': cfg('DB_NAME'),
+        'HOST': cfg('DB_HOST'),
         'PORT': '3306',
-        'USER': cfg('DEV_DB_USER'),
-        'PASSWORD': cfg('DEV_DB_PASSWORD'),
+        'USER': cfg('DB_USER'),
+        'PASSWORD': cfg('DB_PASSWORD'),
     }
 }
+
+# (in my.ini max_allowed_packet=4M by default, but now the value is 64)
+# MySQL dev database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': cfg('DEV_DB_NAME'),
+#         'HOST': cfg('DEV_DB_HOST'),
+#         'PORT': '3306',
+#         'USER': cfg('DEV_DB_USER'),
+#         'PASSWORD': cfg('DEV_DB_PASSWORD'),
+#     }
+# }
 
 
 # Email settings
