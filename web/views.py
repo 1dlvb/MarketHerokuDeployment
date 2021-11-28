@@ -237,8 +237,11 @@ def contact(request):
         else:
             username = ' '
         message = f"MESSAGE: {message}\n\n\n\n EMAIL: {email}\n USERNAME: {username}\n"
-        email = EmailMessage(subject=subject, body=message, from_email=email,
-                             to=[settings.EMAIL_HOST_USER], bcc=[cfg('EMAIL_HOST_USER')])
+        email = EmailMessage(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [cfg('EMAIL_HOST_USER')])
         email.fail_silently = False
         email.send()
         return render(request, 'web/contact.html', context=context)
